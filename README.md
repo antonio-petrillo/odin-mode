@@ -1,6 +1,4 @@
-# odin-mode :heart:
+# odin-mode
 
-Join the chat at https://discord.gg/hAkUujZ
+A major mode for Odin. Forked from https://github.com/mattt-b/odin-mode
 
-[![Build Status](https://travis-ci.org/glassofethanol/odin.svg?branch=master)](https://travis-ci.org/galssofethanol/odin-mode)
-A community-driven port of [Emacs](https://www.gnu.org/software/emacs/) to [Odin](https://odin.handmade.network/).

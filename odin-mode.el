@@ -13,8 +13,9 @@
 (require 'rx)
 (require 'js)
 
-(defgroup odin nil
-  "Odin mode"
+(defgroup odin-mode nil
+  "Support for Odin."
+  :link '(url-link "https://odin-lang.org/")
   :group 'languages)
 
 ;; `compilation-mode' configuration
@@ -276,13 +277,11 @@
         (skip-chars-forward "^}")
         (forward-char)))))
 
-(defalias 'odin-parent-mode
- (if (fboundp 'prog-mode) 'prog-mode 'fundamental-mode))
-
 ;;;###autoload
-(define-derived-mode odin-mode odin-parent-mode "Odin"
+(define-derived-mode odin-mode prog-mode "Odin"
+  "Major mode for Odin."
+  :group 'odin-mode
   :syntax-table odin-mode-syntax-table
-  :group 'odin
   (setq bidi-paragraph-direction 'left-to-right)
   (setq-local require-final-newline mode-require-final-newline)
   (setq-local parse-sexp-ignore-comments t)
@@ -306,6 +305,5 @@
 (add-to-list 'auto-mode-alist '("\\.odin\\'" . odin-mode))
 
 (provide 'odin-mode)
-
 
 ;;; odin-mode.el ends here

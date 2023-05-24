@@ -1,11 +1,29 @@
-;;; odin-mode.el --- A minor mode for odin
+;;; odin-mode.el --- A major mode for Odin                 -*- lexical-binding: t; -*-
 
-;; Author: Ethan Morgan
-;; Keywords: odin, language, languages, mode
-;; Package-Requires: ((emacs "24.1"))
-;; Homepage: https://github.com/glassofethanol/odin-mode
+;; Copyright (C) 2023  Graham Marlow
 
-;; This file is NOT part of GNU Emacs.
+;; Author: Graham Marlow
+;; Keywords: languages
+;; Url: https://git.sr.ht/~mgmarlow/odin-mode
+;; Package-Requires: ((emacs "25.1"))
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+;;; Commentary:
+
+;; A major mode for the Odin programming language, forked from
+;; https://github.com/mattt-b/odin-mode.
 
 ;;; Code:
 

@@ -30,16 +30,12 @@
 (require 'cl-lib)
 (require 'rx)
 (require 'js)
+(require 'compile)
 
 (defgroup odin-mode nil
   "Support for Odin."
   :link '(url-link "https://odin-lang.org/")
   :group 'languages)
-
-;; `compilation-mode' configuration
-
-(eval-after-load 'compile
- '(add-to-list 'compilation-error-regexp-alist '("^\\(.*?\\)(\\([0-9]+\\):\\([0-9]+\\).*" 1 2 3)))
 
 (defconst odin-mode-syntax-table
   (let ((table (make-syntax-table)))
@@ -321,6 +317,22 @@
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.odin\\'" . odin-mode))
+
+;; Compilation options
+(defcustom odin-bin "odin"
+  "Path to odin binary."
+  :type 'string
+  :group 'odin-mode)
+
+(defun odin-compile ()
+  "Compile directory with `odin`."
+  (interactive)
+  (let ((project-directory (project-root (project-current t))))
+    (compile (format "%s build %s" odin-bin project-directory))))
+
+(eval-after-load 'compile
+  '(progn
+     (add-to-list 'compilation-error-regexp-alist '("^\\(.*?\\)(\\([0-9]+\\):\\([0-9]+\\).*" 1 2 3))))
 
 (provide 'odin-mode)
 

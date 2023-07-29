@@ -25,6 +25,10 @@
 
 ;;; Code:
 
+;; For indentation
+(require 'js)
+(require 'project)
+
 (defgroup odin-mode nil
   "Major mode for the Odin programming language."
   :link '(url-link "https://odin-lang.org")
@@ -133,12 +137,41 @@
   (setq-local comment-start "/*")
   (setq-local comment-end "*/")
 
-  ;; Auto indent on }
+  (setq-local indent-line-function #'js-indent-line)
+
   (setq-local electric-indent-chars
               (append "{}():;," electric-indent-chars)))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.odin\\'" . odin-mode))
+
+(defcustom odin-bin "odin"
+  "Path to odin executable."
+  :type 'string
+  :group 'odin-mode)
+
+(defun odin--project-cmd (format-string &rest args)
+  (unless (project-current)
+    (error "No project found"))
+  (let ((default-directory (project-root (project-current))))
+    (compile (apply #'format
+                    (concat "%s " format-string " %s")
+                    (append (list odin-bin) args (list default-directory))))))
+
+(defun odin-build-project ()
+  "Build curent project using `odin build`."
+  (interactive)
+  (odin--project-cmd "build"))
+
+(defun odin-run-project ()
+  "Run current project using `odin run`."
+  (interactive)
+  (odin--project-cmd "run"))
+
+(defun odin-check-project ()
+  "Check current project using `odin check`."
+  (interactive)
+  (odin--project-cmd "check"))
 
 (provide 'odin-mode)
 

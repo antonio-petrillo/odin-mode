@@ -5,6 +5,7 @@
 ;; Author: Graham Marlow
 ;; Keywords: languages
 ;; Url: https://git.sr.ht/~mgmarlow/odin-mode
+;; Version: 0.1.0
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -25,9 +26,8 @@
 
 ;;; Code:
 
-;; For indentation
-(require 'js)
-(require 'project)
+(require 'js) ; For indentation
+(require 'project) ; For build/compile commands
 
 (defgroup odin-mode nil
   "Major mode for the Odin programming language."
@@ -150,13 +150,17 @@
   :type 'string
   :group 'odin-mode)
 
-(defun odin--project-cmd (format-string &rest args)
+(defun odin--project-cmd (format-string)
+  "Execute odin on current project.
+
+FORMAT-STRING is the command passed to the odin binary.  The
+current project directory is always passed as the first argument."
   (unless (project-current)
     (error "No project found"))
   (let ((default-directory (project-root (project-current))))
     (compile (apply #'format
                     (concat "%s " format-string " %s")
-                    (append (list odin-bin) args (list default-directory))))))
+                    (list odin-bin default-directory)))))
 
 (defun odin-build-project ()
   "Build curent project using `odin build`."
@@ -172,6 +176,11 @@
   "Check current project using `odin check`."
   (interactive)
   (odin--project-cmd "check"))
+
+(defun odin-test-project ()
+  "Run procedures marked by the attribute @(test) using `odin test`."
+  (interactive)
+  (odin--project-cmd "test"))
 
 (provide 'odin-mode)
 

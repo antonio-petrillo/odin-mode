@@ -5,6 +5,7 @@ A major mode for [Odin](https://odin-lang.org/).
 ## Features
 
 - Syntax highlighting
+- Indentation
 - Compile/run/test commands
 
 ## Installation

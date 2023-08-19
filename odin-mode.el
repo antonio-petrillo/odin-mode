@@ -116,6 +116,9 @@
     ;; Types
     (,(regexp-opt odin-typenames 'symbols) . font-lock-type-face)
 
+    ;; Attributes
+    ("^ *@[a-zA-Z]+" . font-lock-preprocessor-face)
+
     ;; Builtins
     (,(regexp-opt odin-builtins 'symbols) . font-lock-builtin-face)
 

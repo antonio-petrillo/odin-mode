@@ -6,6 +6,7 @@
 ;; Keywords: languages
 ;; Url: https://git.sr.ht/~mgmarlow/odin-mode
 ;; Version: 0.1.0
+;; Package-Requires: ((emacs "28.1"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -29,7 +30,7 @@
 (require 'js) ; For indentation
 (require 'project) ; For build/compile commands
 
-(defgroup odin-mode nil
+(defgroup odin nil
   "Major mode for the Odin programming language."
   :link '(url-link "https://odin-lang.org")
   :group 'languages)
@@ -129,7 +130,7 @@
 (define-derived-mode odin-mode
   prog-mode "Odin"
   "Major mode for the Odin programming language."
-  :group 'odin-mode
+  :group 'odin
   :syntax-table odin-mode-syntax-table
 
   (setq-local font-lock-defaults

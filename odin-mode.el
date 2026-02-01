@@ -1,4 +1,4 @@
-;;; odin-mode.el --- A major mode for Odin                 -*- lexical-binding: t; -*-
+;;; odin-mode.el --- A major mode for Odin              -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023  Graham Marlow
 
@@ -40,7 +40,7 @@
     "where" "when" "if" "else" "for" "switch" "in" "do" "case"
     "break" "continue" "fallthrough" "defer" "return" "proc"
     "struct" "union" "enum" "bit_field" "bit_set" "map" "dynamic"
-    "auto_cast" "cast" "transmute" "distinct" "opaque"
+    "auto_cast" "cast" "transmute" "distinct"
     "using" "inline" "no_inline"
     "size_of" "align_of" "offset_of" "type_of"
     "context"))
@@ -51,16 +51,16 @@
     "swizzle" "complex" "real" "imag" "quaternion" "conj"
     "jmag" "kmag"
     "min" "max" "abs" "clamp"
-    "expand_to_tuple"
+    "expand_values"
 
     "init_global_temporary_allocator"
     "copy" "pop" "unordered_remove" "ordered_remove" "clear" "reserve"
     "resize" "new" "new_clone" "free" "free_all" "delete" "make"
     "clear_map" "reserve_map" "delete_key" "append_elem" "append_elems"
     "append" "append_string" "clear_dynamic_array" "reserve_dynamic_array"
-    "resize_dynamic_array" "incl_elem" "incl_elems" "incl_bit_set"
-    "excl_elem" "excl_elems" "excl_bit_set" "incl" "excl" "card"
-    "assert" "panic" "unimplemented" "unreachable"))
+    "resize_dynamic_array"
+    "card"
+    "assert" "panic" "unimplemented"))
 
 (defconst odin-constants
   '("nil" "true" "false"))
@@ -94,12 +94,22 @@
 (defvar odin-mode-syntax-table
   (let ((table (make-syntax-table)))
     ;; Operators
-    (dolist (i '(?: ?+ ?- ?* ?= ?< ?> ?& ?| ?^ ?! ??))
+    (dolist (i '(?: ?+ ?- ?* ?= ?< ?> ?& ?| ?^ ?! ?? ?\; ?\, ?% ?~))
       (modify-syntax-entry i "." table))
 
+    ;; Parentheses
+    (modify-syntax-entry ?\( "()" table)
+    (modify-syntax-entry ?\) ")(" table)
+    (modify-syntax-entry ?\[ "(]" table)
+    (modify-syntax-entry ?\] ")[" table)
+    (modify-syntax-entry ?\{ "(}" table)
+    (modify-syntax-entry ?\} "){" table)
+
     ;; Strings
+    (modify-syntax-entry ?\' "\"" table)
     (modify-syntax-entry ?\" "\"" table)
     (modify-syntax-entry ?\\ "\\" table)
+    (modify-syntax-entry ?\` "\"" table)
 
     ;; Comments
     (modify-syntax-entry ?/ ". 124b" table)

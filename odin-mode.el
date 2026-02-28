@@ -136,6 +136,16 @@
     ;; Constants
     (,(regexp-opt odin-constants 'symbols) . font-lock-constant-face)))
 
+(defcustom odin-bin "odin"
+  "Path to odin executable."
+  :type 'string
+  :group 'odin-mode)
+
+(defcustom odin-indent-offset 4
+  "Indentation with for Odin lang."
+  :type 'integer
+  :group 'odin-mode)
+
 ;;;###autoload
 (define-derived-mode odin-mode
   prog-mode "Odin"
@@ -151,6 +161,7 @@
   (setq-local comment-start "/*")
   (setq-local comment-end "*/")
 
+  (setq-local js-indent-level odin-indent-offset)
   (setq-local indent-line-function #'js-indent-line)
 
   (setq-local electric-indent-chars
@@ -158,11 +169,6 @@
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.odin\\'" . odin-mode))
-
-(defcustom odin-bin "odin"
-  "Path to odin executable."
-  :type 'string
-  :group 'odin-mode)
 
 (defun odin--project-cmd (format-string)
   "Execute odin on current project.

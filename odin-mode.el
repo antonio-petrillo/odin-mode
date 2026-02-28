@@ -26,9 +26,7 @@
 ;; A major mode for the Odin programming language.
 
 ;;; Code:
-
-(require 'js) ; For indentation
-(require 'project) ; For build/compile commands
+(require 'js)
 
 (defgroup odin nil
   "Major mode for the Odin programming language."
@@ -136,15 +134,19 @@
     ;; Constants
     (,(regexp-opt odin-constants 'symbols) . font-lock-constant-face)))
 
+(defvar odin-mode-map
+  (let ((map (make-sparse-keymap)))
+    map))
+
 (defcustom odin-bin "odin"
   "Path to odin executable."
   :type 'string
-  :group 'odin-mode)
+  :group 'odin)
 
 (defcustom odin-indent-offset 4
   "Indentation with for Odin lang."
   :type 'integer
-  :group 'odin-mode)
+  :group 'odin)
 
 ;;;###autoload
 (define-derived-mode odin-mode
@@ -152,6 +154,11 @@
   "Major mode for the Odin programming language."
   :group 'odin
   :syntax-table odin-mode-syntax-table
+  :keymap odin-mode-map
+
+  (setq-local indent-tabs-mode t)
+  (setq-local tab-width odin-indent-offset)
+  (setq-local indent-line-function #'js-indent-line)
 
   (setq-local font-lock-defaults
               '(odin-font-lock-keywords))
@@ -161,46 +168,11 @@
   (setq-local comment-start "/*")
   (setq-local comment-end "*/")
 
-  (setq-local js-indent-level odin-indent-offset)
-  (setq-local indent-line-function #'js-indent-line)
-
   (setq-local electric-indent-chars
               (append "{}():;," electric-indent-chars)))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.odin\\'" . odin-mode))
-
-(defun odin--project-cmd (format-string)
-  "Execute odin on current project.
-
-FORMAT-STRING is the command passed to the odin binary.  The
-current project directory is always passed as the first argument."
-  (unless (project-current)
-    (error "No project found"))
-  (let ((default-directory (project-root (project-current))))
-    (compile (apply #'format
-                    (concat "%s " format-string " %s")
-                    (list odin-bin default-directory)))))
-
-(defun odin-build-project ()
-  "Build curent project using `odin build`."
-  (interactive)
-  (odin--project-cmd "build"))
-
-(defun odin-run-project ()
-  "Run current project using `odin run`."
-  (interactive)
-  (odin--project-cmd "run"))
-
-(defun odin-check-project ()
-  "Check current project using `odin check`."
-  (interactive)
-  (odin--project-cmd "check"))
-
-(defun odin-test-project ()
-  "Run procedures marked by the attribute @(test) using `odin test`."
-  (interactive)
-  (odin--project-cmd "test"))
 
 (provide 'odin-mode)
 
